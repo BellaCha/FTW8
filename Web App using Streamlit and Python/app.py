@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 import joblib
-import numpy as np 
+import numpy as np
 #import seaborn as sns
 
 #DATA
@@ -12,6 +12,7 @@ def load_data(nrows):
     data=pd.read_csv(Data_URL,nrows=nrows)
     return data
 
+
 data=load_data(1000)
 
 
@@ -19,12 +20,12 @@ def main():
     data =load_data(1000)
     page =st.sidebar.selectbox("Choose a page",["Prediction", "Data Exploration", "Data Visualization"])
     if page == "Prediction":
-                               
+
         # TITLE OF YOUR WEB APPLICATION
         st.title('Advertising Sales Prediction')
 
         # DESCREIBE YOUR WEB APP
-        st.write('We demonstate how we can predict advertising sales based on ad expenditure') 
+        st.write('We demonstate how we can predict advertising sales based on ad expenditure')
         st.subheader('Given the following Advertising Costs')
 
        #Show Histogram (sales)
@@ -36,7 +37,7 @@ def main():
         radio=st.slider('Radio Advertising Cost',0,50,25)
 
        #c. NEWSPAPER SIDEBAR
-        newspaper=st.slider('Newspaper Advertising Cost',0,120,25)  
+        newspaper=st.slider('Newspaper Advertising Cost',0,120,25)
 
         #load Saved Machine Learning Model
         saved_model=joblib.load('advertising_model.sav')
@@ -50,22 +51,22 @@ def main():
 
         st.subheader('Sales Ad Cost Distribution')
         hist_values=np.histogram(data.sales,bins=30,range=(0,30))[0]
-   
+
           #Show bar chart
         st.bar_chart(hist_values)
-    
+
     if page == "Data Exploration":
         st.title('Explore the Advertising Data-Set')
         st.subheader('Show Data Set')
         if st.checkbox('Full Data Set'):
              data
         if st.checkbox('Selected Data Set'):
-        
+
 
 #Select ramdom rows
            selected_indices = st.multiselect('Select rows 0-199 :', data.index)
            selected_rows = data.loc[selected_indices]
-           st.write('### Selected Data Set', selected_rows)        
+           st.write('### Selected Data Set', selected_rows)
 
 
  #SHOW SUMMARY
@@ -78,39 +79,53 @@ def main():
         if st.button("Data Types"):
            st.write(data.dtypes)
         if st.button("Data Describe"):
-           st.write(data.describe())   
+           st.write(data.describe())
 
 
 
 
     if page == "Data Visualization":
-        
+
     ###CREATE HISTOGRAM/BAR CHART
         st.subheader("Data Visualization")
-       
+
 
     #Show Histogram (RADIO)
         st.subheader('Radio Ad Cost Distribution')
         hist_values=np.histogram(data.radio,bins=50,range=(0,50))[0]
-   
+
     #Show bar chart
         st.bar_chart(hist_values)
 
     #Show Histogram (TV)
         st.subheader('TV Ad Cost Distribution')
         hist_values=np.histogram(data.TV,bins=300,range=(0,300))[0]
-   
+
     #Show bar chart
         st.bar_chart(hist_values)
 
     #Show Histogram (NEWSPAPER)
         st.subheader('NewsPaper Ad Cost Distribution')
         hist_values=np.histogram(data.newspaper,bins=120,range=(0,120))[0]
-   
+
     #Show bar chart
         st.bar_chart(hist_values)
-        
+
 main()
+
+st.write("""<style>
+body {
+ background-image: url('https://image.freepik.com/free-photo/creative-flat-lay-work-space-minimal-style_14320-29.jpg');
+ opacity:0.9;
+ background-repeat: no-repeat;
+ background-size: cover;
+ color: black;
+
+
+}
+</style>
+""",unsafe_allow_html=True)
+
 
 
 
